@@ -91,7 +91,8 @@ var UIController = (function() {
     budgetLabel: '.budget__value',
     incomeLabel: '.budget__income--value',
     expensesLabel: '.budget__expenses--value',
-    percentageLabel: '.budget__expenses--percentage'
+    percentageLabel: '.budget__expenses--percentage',
+    container: '.container'
   }
   return {
     getInput() {
@@ -111,7 +112,7 @@ var UIController = (function() {
 
       if (type === 'inc') {
         element = DOMstrings.incomeContainer;
-        html = `<div class="item clearfix" id="income-%id%">
+        html = `<div class="item clearfix" id="inc-%id%">
             <div class="item__description">%description%</div>
             <div class="right clearfix">
                 <div class="item__value">%value%</div>
@@ -122,7 +123,7 @@ var UIController = (function() {
         </div>`
       } else {
         element = DOMstrings.expensesContainer;
-        html = `<div class="item clearfix" id="expense-%id%">
+        html = `<div class="item clearfix" id="exp-%id%">
             <div class="item__description">%description%</div>
             <div class="right clearfix">
                 <div class="item__value">%value%</div>
@@ -172,8 +173,10 @@ var controller = (function(budgetCtrl,UICtrl){
   var setupEventListeners = function() {
     var DOM = UICtrl.getDOMStrings();
     document.querySelector(DOM.inputBtn).addEventListener('click', ctrlAddItem);
+    document.querySelector(DOM.container).addEventListener('click',ctrlDeleteItem);
     // document.addEventListener('keypress',ctrlAddItem);
-  }
+  };
+
   var updateBudget = function() {
     var budget;
     //Calculate the budget
@@ -181,13 +184,12 @@ var controller = (function(budgetCtrl,UICtrl){
     budget = budgetCtrl.getBudget();
     //Display the budget on the UI
     UICtrl.displayBudget(budget);
-  }
+  };
+
   var ctrlAddItem = function() {
     var input, newItem
     //Get the filled input data
     input = UICtrl.getInput();
-
-
     if (input.description !== "" && !isNaN(input.value) && input.value > 0) {
       //Add the item to the budget CONTROLLER
       newItem = budgetCtrl.addItem(input.type, input.description, input.value);
@@ -198,7 +200,25 @@ var controller = (function(budgetCtrl,UICtrl){
       //Calculate the budget
       updateBudget();
     }
-  }
+  };
+
+  var ctrlDeleteItem = function(event) {
+    var itemID, splitID, type, ID;
+
+    itemID = event.target.parentNode.parentNode.parentNode.parentNode.id;
+    if (itemID) {
+      splitID = itemID.split('-');
+      type = splitID[0];
+      ID = splitID[1];
+
+      //delete the item from the data structure
+
+      //delete the item from the UI
+
+      //update and show the new budget
+    }
+  };
+
   return {
     init() {
       console.log('App started');
