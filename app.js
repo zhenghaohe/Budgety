@@ -163,27 +163,10 @@ var UIController = (function() {
 
       if (type === 'inc') {
         element = DOMstrings.incomeContainer;
-        html = `<div class="item clearfix" id="inc-%id%">
-            <div class="item__description">%description%</div>
-            <div class="right clearfix">
-                <div class="item__value">%value%</div>
-                <div class="item__delete">
-                    <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button>
-                </div>
-            </div>
-        </div>`
+        html = '<div class="item clearfix" id="inc-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
       } else {
         element = DOMstrings.expensesContainer;
-        html = `<div class="item clearfix" id="exp-%id%">
-            <div class="item__description">%description%</div>
-            <div class="right clearfix">
-                <div class="item__value">%value%</div>
-                <div class="item__percentage">21%</div>
-                <div class="item__delete">
-                    <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button>
-                </div>
-            </div>
-        </div>`
+        html = '<div class="item clearfix" id="exp-%id%"><div class="item__description">%description%</div><div class="right clearfix"><div class="item__value">%value%</div><div class="item__percentage">21%</div><div class="item__delete"><button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button></div></div></div>'
       }
       //replace the placeholder text with actual data
       newHtml = html.replace('%id%',obj.id);
