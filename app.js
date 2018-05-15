@@ -61,8 +61,8 @@ var UIController = (function() {
     inputDescription: '.add__description',
     inputValue: '.add__value',
     inputBtn:'.add__btn',
-    incomeContainer: 'income__list',
-    expensesContainer: 'expenses__list'
+    incomeContainer: '.income__list',
+    expensesContainer: '.expenses__list'
   }
   return {
     getInput() {
@@ -82,7 +82,7 @@ var UIController = (function() {
 
       if (type === 'inc') {
         element = DOMstrings.incomeContainer;
-        html = '<div class="item clearfix" id="income-%id%">
+        html = `<div class="item clearfix" id="income-%id%">
             <div class="item__description">%description%</div>
             <div class="right clearfix">
                 <div class="item__value">%value%</div>
@@ -90,10 +90,10 @@ var UIController = (function() {
                     <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button>
                 </div>
             </div>
-        </div>'
+        </div>`
       } else {
         element = DOMstrings.expensesContainer;
-        html = '<div class="item clearfix" id="expense-%id%">
+        html = `<div class="item clearfix" id="expense-%id%">
             <div class="item__description">%description%</div>
             <div class="right clearfix">
                 <div class="item__value">%value%</div>
@@ -102,7 +102,7 @@ var UIController = (function() {
                     <button class="item__delete--btn"><i class="ion-ios-close-outline"></i></button>
                 </div>
             </div>
-        </div>'
+        </div>`
       }
       //replace the placeholder text with actual data
       newHtml = html.replace('%id%',obj.id);
@@ -133,7 +133,7 @@ var controller = (function(budgetCtrl,UICtrl){
     //Add the item to the budget CONTROLLER
     newItem = budgetCtrl.addItem(input.type, input.description, input.value);
     //Add the item to the UI
-    UICtrl.addListItem(newItem)
+    UICtrl.addListItem(newItem, input.type);
     //Calculate the budget
 
     //Display the budget on the UI
