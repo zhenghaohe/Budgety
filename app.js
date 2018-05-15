@@ -108,10 +108,17 @@ var UIController = (function() {
       newHtml = html.replace('%id%',obj.id);
       newHtml = newHtml.replace('%description%',obj.description);
       newHtml = newHtml.replace('%value%',obj.value);
-
       //insert the HTML into the DOM
       document.querySelector(element).insertAdjacentHTML('beforeend',newHtml);
+    },
 
+    clearFields() {
+      var fileds, filedsArr;
+
+      fileds = document.querySelectorAll(DOMstrings.inputDescription + ', '+DOMstrings.inputValue);
+      filedsArr = Array.prototype.slice.call(fileds); // change the list to array
+      filedsArr.forEach((ele) => ele.value = '');
+      filedsArr[0].focus();
     }
 
 
@@ -130,13 +137,17 @@ var controller = (function(budgetCtrl,UICtrl){
     var input, newItem
     //Get the filled input data
     input = UICtrl.getInput();
-    //Add the item to the budget CONTROLLER
-    newItem = budgetCtrl.addItem(input.type, input.description, input.value);
-    //Add the item to the UI
-    UICtrl.addListItem(newItem, input.type);
-    //Calculate the budget
+    if (input.description !== "" && input.value !== "") {
+      //Add the item to the budget CONTROLLER
+      newItem = budgetCtrl.addItem(input.type, input.description, input.value);
+      //Add the item to the UI
+      UICtrl.addListItem(newItem, input.type);
+      //clear the fileds
+      UICtrl.clearFields();
+      //Calculate the budget
 
-    //Display the budget on the UI
+      //Display the budget on the UI
+    }
   }
 
   return {
