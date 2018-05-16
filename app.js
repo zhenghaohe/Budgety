@@ -206,6 +206,7 @@ var UIController = (function() {
     clearFields() {
       var fileds, filedsArr;
 
+
       fileds = document.querySelectorAll(DOMstrings.inputDescription + ', '+DOMstrings.inputValue);
       filedsArr = Array.prototype.slice.call(fileds); // change the list to array
       filedsArr.forEach((ele) => ele.value = '');
@@ -213,9 +214,11 @@ var UIController = (function() {
     },
 
     displayBudget(obj) {
-      document.querySelector(DOMstrings.budgetLabel).textContent = obj.budget;
-      document.querySelector(DOMstrings.incomeLabel).textContent = obj.totalInc;
-      document.querySelector(DOMstrings.expensesLabel).textContent = obj.totalExp;
+      var type;
+      type = obj.budget >= 0 ? 'inc' : 'exp';
+      document.querySelector(DOMstrings.budgetLabel).textContent = formatNumber(obj.budget, type);
+      document.querySelector(DOMstrings.incomeLabel).textContent = formatNumber(obj.totalInc, 'inc');
+      document.querySelector(DOMstrings.expensesLabel).textContent = formatNumber(obj.totalExp, 'exp');
 
       if (obj.percentage > 0) {
         document.querySelector(DOMstrings.percentageLabel).textContent = obj.percentage + '%';
