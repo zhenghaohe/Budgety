@@ -147,6 +147,12 @@ var UIController = (function() {
     return sign + ' ' + int + '.' + dec;
   };
 
+  var nodeListForEach = function(list, callback){
+    for (var i = 0; i < list.length; i++) {
+      callback(list[i],i);
+    }
+  };
+
   return {
     getInput() {
       return{
@@ -173,18 +179,21 @@ var UIController = (function() {
       return DOMstrings;
     },
 
-    changeType() {
+    changedType() {
       // style manipulation
+      var fields = document.querySelectorAll(
+        DOMstrings.inputType + ',' +
+        DOMstrings.inputDescription + ',' +
+        DOMstrings.inputValue
+      );
+
+      nodeListForEach(fields, function(cur) {
+        cur.classList.toggle('red-focus');
+      });
     },
 
     displayPercentages(percentages) {
       var fields = document.querySelectorAll(DOMstrings.expensesPercLabel);
-
-      var nodeListForEach = function(list,callback){
-        for (var i = 0; i < list.length; i++) {
-          callback(list[i],i);
-        }
-      };
 
       nodeListForEach(fields, function(list,index) {
         if (percentages[index]>0) {
@@ -258,7 +267,7 @@ var controller = (function(budgetCtrl,UICtrl){
     document.addEventListener('keypress',e => {
       if (e.keyCode === 13) ctrlAddItem();
     });
-    document.querySelector(DOM.inputType).addEventListener('change', UICtrl.changeType);
+    document.querySelector(DOM.inputType).addEventListener('change', UICtrl.changedType);
   };
 
 
