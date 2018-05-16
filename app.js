@@ -17,7 +17,7 @@ var budgetController = (function() {
 
   Expense.prototype.getPercentage = function() {
     return this.percentage;
-  }
+  };
 
   var Income = function(id, description, value) {
     this.id = id;
@@ -27,7 +27,7 @@ var budgetController = (function() {
 
   var calculateTotal = function(type) {
     data.totals[type] = data.allItems[type].reduce((sum,ele) => sum + ele.value, 0);
-  }
+  };
 
   var data = {
     allItems: {
