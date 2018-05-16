@@ -173,6 +173,10 @@ var UIController = (function() {
       return DOMstrings;
     },
 
+    changeType() {
+      // style manipulation
+    },
+
     displayPercentages(percentages) {
       var fields = document.querySelectorAll(DOMstrings.expensesPercLabel);
 
@@ -251,8 +255,12 @@ var controller = (function(budgetCtrl,UICtrl){
     var DOM = UICtrl.getDOMStrings();
     document.querySelector(DOM.inputBtn).addEventListener('click', ctrlAddItem);
     document.querySelector(DOM.container).addEventListener('click',ctrlDeleteItem);
-    // document.addEventListener('keypress',ctrlAddItem);
+    document.addEventListener('keypress',e => {
+      if (e.keyCode === 13) ctrlAddItem();
+    });
+    document.querySelector(DOM.inputType).addEventListener('change', UICtrl.changeType);
   };
+
 
   var updateBudget = function() {
     var budget;
@@ -284,7 +292,6 @@ var controller = (function(budgetCtrl,UICtrl){
       updateBudget();
 
       updatePercentage();
-
     }
   };
 
