@@ -40,7 +40,7 @@ body {
 .top {
   height: 50vh;
   background-image: linear-gradient(rgba(0, 0, 0, 0.35), rgba(0, 0, 0, 0.35)),
-    url(https://images.pexels.com/photos/461077/pexels-photo-461077.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260);
+  url(https://mir-s3-cdn-cf.behance.net/project_modules/2800/7b20f365056527.5ae7599a04517.jpg);
   background-size: cover;
   background-position: center;
   position: relative;
@@ -82,11 +82,11 @@ body {
 
 .budget__income {
   margin-bottom: 10px;
-  background-color: #28b9b5;
+  background-color: #83c1a4;
 }
 
 .budget__expenses {
-  background-color: #ff5049;
+  background-color: #f99459;
 }
 
 .budget__income--text,
