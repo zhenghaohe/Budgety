@@ -1,4 +1,3 @@
-// Retrive elements from DOM tree
 const getDestructuredElementsByIds = (document) => {
   return new Proxy({}, { get: (_, id) => document.getElementById(id) });
 };
@@ -59,7 +58,7 @@ const budgetController = (() => {
     percentage: -1,
   };
 
-  const calculateTotal = (type) => {
+  const calculateTotal = type => {
     data.totals[type] = data.allItems[type].reduce((sum, e) => sum + e.value, 0);
   };
 
@@ -101,10 +100,10 @@ const budgetController = (() => {
       }
     },
     calculatePercentages() {
-      data.allItems.exp.forEach((ele) => ele.calcPercentage(data.totals.inc));
+      data.allItems.exp.forEach(e => e.calcPercentage(data.totals.inc));
     },
     getPercentages() {
-      const allPerc = data.allItems.exp.map( (ele) => ele.getPercentage());
+      const allPerc = data.allItems.exp.map(e => e.getPercentage());
       return allPerc;
     },
     getBudget() {
@@ -123,7 +122,7 @@ const UIController = (() => {
     num = Math.abs(num);
     num = num.toFixed(2);
     let [int, dec] = num.split('.');
-    if (int.length>3) {
+    if (int.length > 3) {
       int = `${int.substr(0, int.length - 3)},${int.slice(int.length - 3)}`;
     }
 
@@ -181,34 +180,33 @@ const UIController = (() => {
     },
     clearFields() {
       const fields = [addDescription, addValue];
-      fields.forEach((field)=> field.value = '');
+      fields.forEach(field => {field.value = ''});
       fields[0].focus();
     },
     displayBudget(obj) {
-      let type;
-      type = obj.budget >= 0 ? 'inc' : 'exp';
-        budgetValue.textContent = `${formatNumber(obj.budget, type)}`;
+      const type = obj.budget >= 0 ? 'inc' : 'exp';
+      budgetValue.textContent = `${formatNumber(obj.budget, type)}`;
       budgetIncomeValue.textContent = `${formatNumber(obj.totalInc, 'inc')}`;
-        budgetExpensesValue.textContent = `${formatNumber(obj.totalExp, 'exp')}`
-        if (obj.percentage > 0) {
-          budgetExpensesPercentage.textContent = `${obj.percentage}%`;
-        } else{
-          budgetExpensesPercentage.textContent = '---';
-        }
-      },
-      displayPercentages(percentages) {
-        const expensesPercentageLabel = document.getElementsByClassName('item__percentage');
-        const fields = [...expensesPercentageLabel];
+      budgetExpensesValue.textContent = `${formatNumber(obj.totalExp, 'exp')}`
+      if (obj.percentage > 0) {
+        budgetExpensesPercentage.textContent = `${obj.percentage}%`;
+      } else {
+        budgetExpensesPercentage.textContent = '---';
+      }
+    },
+    displayPercentages(percentages) {
+      const expensesPercentageLabel = document.getElementsByClassName('item__percentage');
+      const fields = [...expensesPercentageLabel];
 
-        fields.forEach((currentField, index) => {
+      fields.forEach((currentField, index) => {
         if (percentages[index] > 0) {
           currentField.textContent = `${percentages[index]} %`;
         } else {
           currentField.textContent = '---';
         }
       });
-      },
-      displayMonth() {
+    },
+    displayMonth() {
       const now = new Date();
       const month = now.toLocaleString('en-us', {
         month: 'long',
@@ -220,23 +218,13 @@ const UIController = (() => {
     changedType() {
       const fields = [addType, addDescription, addValue];
 
-      fields.forEach((currentField) => {
-        currentField.classList.toggle('alert-focus');
-      });
+      fields.forEach(currentField => currentField.classList.toggle('alert-focus'));
       addButton.classList.toggle('alert');
     },
   };
 })();
 
-const AppController = ((budgetCtrl, UICtrl) =>{
-  const setupEventListeners = () => {
-    addButton.addEventListener('click', ctrlAddItem);
-    document.addEventListener('keypress', (e) => {
-      if (e.keyCode === 13) ctrlAddItem();
-    });
-    budgetContainer.addEventListener('click', ctrlDeleteItem);
-    addType.addEventListener('change', UICtrl.changedType);
-  };
+const AppController = ((budgetCtrl, UICtrl) => {
   const updateBudget = () => {
     budgetCtrl.calculateBudget();
     const budget = budgetCtrl.getBudget();
@@ -257,7 +245,7 @@ const AppController = ((budgetCtrl, UICtrl) =>{
       updatePercentages();
     }
   };
-  const ctrlDeleteItem = (e) => {
+  const ctrlDeleteItem = e => {
     const itemID = e.target.parentNode.parentNode.parentNode.parentNode.id;
     if (itemID) {
       const splitID = itemID.split('-');
@@ -268,6 +256,14 @@ const AppController = ((budgetCtrl, UICtrl) =>{
       updateBudget();
       updatePercentages();
     }
+  };
+  const setupEventListeners = () => {
+    addButton.addEventListener('click', ctrlAddItem);
+    document.addEventListener('keypress', (e) => {
+      if (e.keyCode === 13) ctrlAddItem();
+    });
+    budgetContainer.addEventListener('click', ctrlDeleteItem);
+    addType.addEventListener('change', UICtrl.changedType);
   };
 
   return {
