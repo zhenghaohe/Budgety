@@ -2,7 +2,7 @@ module.exports = {
     env: {
       es6: true,
     },
-    // "extends": "airbnb-base",
+    "extends": "airbnb-base",
     rules: {
     'no-unused-vars': 0,
     'no-undef': 0,
