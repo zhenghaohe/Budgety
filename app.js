@@ -1,6 +1,6 @@
 // BUDGET CONTROLLER
-var budgetController = (function() {
-  var Expense = function(id, description, value) {
+var budgetController = (function () {
+  var Expense = function (id, description, value) {
     this.id = id;
     this.description = description;
     this.value = value;
@@ -66,10 +66,15 @@ var budgetController = (function() {
     deleteItem(type, id) {
       var ids, index;
 
-      ids = data.allItems[type].map((ele)=>ele.id); // get the array of IDs
-      index = ids.indexOf(id);
-      if (index !== -1) {
-        data.allItems[type].splice(index, 1);
+      // ids = data.allItems[type].map((ele)=>ele.id); // get the array of IDs
+      // index = ids.indexOf(id);
+      // if (index !== -1) {
+      //   data.allItems[type].splice(index, 1);
+      // }
+      for (let i = 0; i < data.allItems[type].length; i++) {
+        if (data.allItems[type][i].id === id) {
+          data.allItems[type].splice(i, 1);
+        }
       }
     },
 
@@ -109,7 +114,7 @@ var budgetController = (function() {
       console.log(data);
     }
   }
-})();
+}());
 
 // UI CONTROLLER
 var UIController = (function() {
@@ -138,11 +143,9 @@ var UIController = (function() {
     int = numSplit[0]; //integer part
     dec = numSplit[1];//decimal part
     if (int.length>3) {
-      int = int.substr(0, int.length - 3) + ',' + int.substr(int.length - 3, 3);
+      int = int.substr(0, int.length - 3) + ',' + int.slice(int.length - 3);
     }
-    dec = numSplit[1];
     sign = type === 'exp' ? '-' : '+';
-    console.log(sign);
 
     return sign + ' ' + int + '.' + dec;
   };
@@ -197,7 +200,7 @@ var UIController = (function() {
 
     displayPercentages(percentages) {
       var fields = document.querySelectorAll(DOMstrings.expensesPercLabel);
-
+      console.log(fields);
       nodeListForEach(fields, function(list,index) {
         if (percentages[index]>0) {
           list.textContent = percentages[index] + '%';
@@ -235,11 +238,12 @@ var UIController = (function() {
     clearFields() {
       var fileds, filedsArr;
 
-
       fileds = document.querySelectorAll(DOMstrings.inputDescription + ', '+DOMstrings.inputValue);
-      filedsArr = Array.prototype.slice.call(fileds); // change the list to array
-      filedsArr.forEach((ele) => ele.value = '');
-      filedsArr[0].focus();
+      nodeListForEach(fileds, (ele,i) => {
+        ele.value = '';
+        if (i===0) ele.focus();
+        }
+      );
     },
 
     displayBudget(obj) {
@@ -323,6 +327,7 @@ var controller = (function(budgetCtrl,UICtrl){
       //update and show the new budget
       updateBudget();
       //update the percentages
+      updatePercentage();
     }
   };
 
