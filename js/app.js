@@ -11,7 +11,7 @@ const {
   budgetExpensesValue,
   budgetExpensesPercentage,
   monthLabel,
-} = new Proxy({}, { get: (_, id) => document.getElementById(id) });
+} = new Proxy({}, { get(_, id) { return document.getElementById(id); } });
 
 const budgetController = (() => {
   class Expense {
