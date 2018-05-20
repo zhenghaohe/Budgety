@@ -1,7 +1,3 @@
-const getDestructuredElementsByIds = (document) => {
-  return new Proxy({}, { get: (_, id) => document.getElementById(id) });
-};
-
 const {
   addType,
   addDescription,
@@ -15,7 +11,7 @@ const {
   budgetExpensesValue,
   budgetExpensesPercentage,
   monthLabel,
-} = getDestructuredElementsByIds(document);
+} = new Proxy({}, { get: (_, id) => document.getElementById(id) });
 
 const budgetController = (() => {
   class Expense {
