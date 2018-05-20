@@ -4,14 +4,14 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": ""
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/zhenghaohe/Budgety.git"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Zhenghao He",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/zhenghaohe/Budgety/issues"
   },
