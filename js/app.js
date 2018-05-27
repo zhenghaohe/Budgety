@@ -1,3 +1,4 @@
+// retrieve the DOM elements needed
 const {
   addType,
   addDescription,
@@ -13,6 +14,7 @@ const {
   monthLabel,
 } = new Proxy({}, { get(_, id) { return document.getElementById(id); } });
 
+// BUDGET CONTROLLER
 const budgetController = (() => {
   class Expense {
     constructor(id, description, value) {
@@ -62,19 +64,24 @@ const budgetController = (() => {
     addItem(type, des, val) {
       let newItem, id;
 
+      // Create new ID
       if (data.allItems[type].length) {
         id = data.allItems[type][data.allItems[type].length - 1].id + 1;
       } else {
         id = 0;
       }
+      //[1 2 3 4 5], next ID = 6
+      //[1 2 4 6 8], next ID = 9
+      // ID = last ID + 1
 
+      // Create new item based on 'inc' or 'exp' type
       if (type === 'exp') {
         newItem = new Expense(id, des, val);
       } else if (type === 'inc') {
         newItem = new Expense(id, des, val);
       }
-
       data.allItems[type].push(newItem);
+
       return newItem;
     },
     deleteItem(type, id) {
@@ -85,10 +92,12 @@ const budgetController = (() => {
       }
     },
     calculateBudget() {
+      // calculate total income and expenses
       calculateTotal('exp');
       calculateTotal('inc');
+      // Calculate the budget: income - expenses
       data.budget = data.totals.inc - data.totals.exp;
-
+      // calculate the percentage of income that spent
       if (data.totals.inc > 0) {
         data.percentage = Math.round(data.totals.exp / data.totals.inc * 100);
       } else {
@@ -113,8 +122,17 @@ const budgetController = (() => {
   };
 })();
 
+// UI CONTROLLER
 const UIController = (() => {
   const formatNumber = (num,type) => {
+    /*
+        + or - before number
+        exactly 2 decimal points
+        comma separating the thousands
+
+        2310.4567 -> + 2,310.46
+        2000 -> + 2,000.00
+        */
     num = Math.abs(num);
     num = num.toFixed(2);
     let [int, dec] = num.split('.');
@@ -136,6 +154,7 @@ const UIController = (() => {
     addListItem(obj, type) {
       let newHtml, element;
 
+      // Create HTML string with placeholder text
       if (type === 'inc') {
         element = budgetIncomeList;
         newHtml = `
@@ -168,6 +187,7 @@ const UIController = (() => {
           </div>
         `;
       }
+      // Insert the HTML into the DOM
       element.insertAdjacentHTML('beforeend', newHtml);
     },
     deleteListItem(id) {
@@ -220,6 +240,7 @@ const UIController = (() => {
   };
 })();
 
+// GLOBAL APP CONTROLLER
 const AppController = ((budgetCtrl, UICtrl) => {
   const updateBudget = () => {
     budgetCtrl.calculateBudget();
